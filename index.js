@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import {
   SocketServer,
   SocketClient,
@@ -36,9 +37,17 @@ if(ws.namespace === namespace) {
       },
       eventCallback: (e, message) => {
         const { action, data } = message
-
         if(action === 'keyPress') {
-          console.log({ action, data })
+          if(data === 'layout') {
+            try {
+              execSync(`sh ${process.cwd()}/scripts/setkblayout.sh`, {
+                stdio: 'inherit',
+                cwd: `${process.cwd()}/scripts`,
+              })
+            } catch (e) {
+              console.error(e)
+            }
+          }
         }
       }
     })
@@ -54,11 +63,9 @@ const httpServer = await createServer({
     '/send-message': {
       method: 'post',
       handlers: [(req, res, next) => {
-        socketClient.socket.emit('send-message', req.body)
+        socketClient.socket.emit(req.body)
 
-        return {
-          status: 200,
-        }
+        return req.body
       }],
     },
   }
