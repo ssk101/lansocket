@@ -37,7 +37,7 @@ if(ws.namespace === namespace) {
       eventCallback: (e, message) => {
         const { action, data } = message
 
-        if(action = 'keyPress') {
+        if(action === 'keyPress') {
           console.log({ action, data })
         }
       }
