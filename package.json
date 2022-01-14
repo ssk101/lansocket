@@ -1,0 +1,23 @@
+{
+  "name": "lansocket",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">= 17.1.0"
+  },
+  "scripts": {
+    "pm2": "pm2 start ecosystem.config.cjs && pm2 logs lansocket",
+    "server": "node --experimental-json-modules ./index.js",
+    "start": "yarn server"
+  },
+  "dependencies": {
+    "@octokit/rest": "^18.12.0",
+    "@ssk101/facade-server": "^1.0.0",
+    "@ssk101/facade-sockets": "^1.0.0",
+    "@ssk101/facade-toolbox": "^1.0.0",
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.0.0"
+  }
+}
