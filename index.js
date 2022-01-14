@@ -54,6 +54,12 @@ if(ws.namespace === namespace) {
   }
 }
 
+// curl -X POST http://localhost:3098/send-message \
+// --silent \
+// -H "Content-Type: application/json" \
+// -d '{"action":"keyPress", "data": "layout"}'
+
+
 const httpServer = await createServer({
   namespace,
   client: false,
