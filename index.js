@@ -1,13 +1,65 @@
 import {
-  SocketServer, SocketClient,
+  SocketServer,
+  SocketClient,
 } from '@ssk101/facade-sockets'
-import { port, host, client } from './config.js'
+import {
+  createServer
+} from '@ssk101/facade-server'
+import config from './config.js'
 
-const server = new SocketServer({ port })
-await server.createServer()
-const client = new SocketClient({ port, host: client })
+const { ws, server, clients, namespace } = config
 
-client.socket.emit('hello')
-server.io.on('*', (msg) => {
-  console.log({ msg })
+const socketClient = new SocketClient({
+  port: ws.port,
+  host: ws.host,
+  namespace,
+  connectCallback: (e) => {
+    console.log(namespace, 'connected to server')
+  }
+})
+
+if(ws.namespace === namespace) {
+  const socketServer = new SocketServer({ port: ws.port })
+  await socketServer.createServer()
+  const nsps = {}
+
+  for(const client of clients) {
+    nsps[client.namespace] = await socketServer.namespace(`/${client.namespace}`, {
+      connectCallback: (e) => {
+        console.log(client.namespace, 'connected')
+      },
+      closeCallback: (e) => {
+        console.log(client.namespace, 'closed')
+      },
+      disconnectCallback: (e) => {
+        console.log(client.namespace, 'disconnected')
+      },
+      eventCallback: (e, message) => {
+        const { action, data } = message
+
+        if(action = 'keyPress') {
+          console.log({ action, data })
+        }
+      }
+    })
+  }
+}
+
+const httpServer = await createServer({
+  namespace,
+  client: false,
+  useRedis: false,
+  port: server.port,
+  routes: {
+    '/send-message': {
+      method: 'post',
+      handlers: [(req, res, next) => {
+        socketClient.socket.emit('send-message', req.body)
+
+        return {
+          status: 200,
+        }
+      }],
+    },
+  }
 })

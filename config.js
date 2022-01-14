@@ -1,7 +1,18 @@
 import _ from 'lodash'
 
 const defaults = {
-  port: 3099,
+  ws: {
+    host: 'http://localhost',
+    port: 3099,
+  },
+  server: {
+    host: 'http://localhost',
+    port: 3098,
+  },
+  clients: [
+
+  ],
+  namespace: '',
 }
 
 let devConfig
