@@ -1,0 +1,9 @@
+node_modules
+/build
+.DS_Store
+.env
+*.pyc
+__pycache__
+*.log
+tmp
+tempCodeRunnerFile*
