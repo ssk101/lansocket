@@ -8,6 +8,9 @@ import {
 } from '@ssk101/facade-server'
 import config from './config.js'
 
+const __dirname = ((await import('path')).dirname)
+  (((await import('url')).fileURLToPath)(import.meta.url))
+
 const { ws, server, clients, namespace } = config
 
 const socketClient = new SocketClient({
@@ -40,9 +43,9 @@ if(ws.namespace === namespace) {
         if(action === 'keyPress') {
           if(data === 'layout') {
             try {
-              execSync(`sh ${process.cwd()}/scripts/setkblayout.sh`, {
+              execSync(`sh ${__dirname}/scripts/setkblayout.sh`, {
                 stdio: 'inherit',
-                cwd: `${process.cwd()}/scripts`,
+                cwd: `${__dirname}/scripts`,
               })
             } catch (e) {
               console.error(e)
@@ -53,12 +56,6 @@ if(ws.namespace === namespace) {
     })
   }
 }
-
-// curl -X POST http://localhost:3098/send-message \
-// --silent \
-// -H "Content-Type: application/json" \
-// -d '{"action":"keyPress", "data": "layout"}'
-
 
 const httpServer = await createServer({
   namespace,
