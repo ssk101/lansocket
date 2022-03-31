@@ -7,14 +7,13 @@ const {
 
 export default {
   namespace: LANSOCKET_NAMESPACE,
+  port: LANSOCKET_SERVER_PORT,
+  wsPort: LANSOCKET_WS_PORT,
   server: {
     namespace: 'ubuntu-main',
     host: LANSOCKET_SERVER_HOST,
-    port: LANSOCKET_WS_PORT,
-    ws: {
-      host: LANSOCKET_SERVER_HOST,
-      port: LANSOCKET_SERVER_PORT,
-    },
+    port: LANSOCKET_SERVER_PORT,
+    wsPort: LANSOCKET_WS_PORT,
   },
   clients: [{
     namespace: 'mbp',

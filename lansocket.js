@@ -1,11 +1,11 @@
-#!/usr/bin/env zx
+import config from './config.js'
 
-const args = process.argv.slice(3)
+const args = process.argv.slice(2)
 const [command] = args
 
 const commands = {
   kbLayout: async function() {
-    await fetch('http://localhost:3098/send-message', {
+    await fetch(`http://localhost:3098/send-message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,6 +19,8 @@ const commands = {
   },
 }
 
-await commands[command]()
+if(command) {
+  await commands[command]()
+}
 
 process.exit(0)
