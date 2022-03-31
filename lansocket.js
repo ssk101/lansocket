@@ -5,7 +5,7 @@ const [command] = args
 
 const commands = {
   kbLayout: async function() {
-    await fetch(`http://localhost:3098/send-message`, {
+    const result = await fetch(`http://localhost:3098/send-message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,6 +18,7 @@ const commands = {
     })
   },
 }
+
 
 if(command) {
   await commands[command]()

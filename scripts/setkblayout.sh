@@ -3,7 +3,7 @@
 new=""
 current=$(setxkbmap -query | awk '/layout/ {print $2}')
 
-if [[ $current == "us" ]] ; then
+if [ $current == "us" ] ; then
   new="no"
 else
   new="us"

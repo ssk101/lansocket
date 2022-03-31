@@ -14,16 +14,17 @@ const __dirname = ((await import('path')).dirname)
 const { namespace, wsPort, port, server, clients } = config
 const isServer = server.namespace === namespace
 
-console.log(namespace, config)
-
 const socketClient = new SocketClient({
   port: wsPort,
-  host: 'http://localhost',
+  host: server.host,
   namespace,
   connectCallback: (e) => {
     console.log(namespace, 'connected to server')
   }
 })
+
+const socketServer = new SocketServer({ port: server.wsPort })
+await socketServer.createServer()
 
 const httpServer = await createServer({
   namespace,
@@ -42,8 +43,7 @@ const httpServer = await createServer({
 })
 
 async function initSocketServer() {
-  const socketServer = new SocketServer({ port: server.wsPort })
-  await socketServer.createServer()
+
   const nsps = {}
 
   for(const client of clients) {
