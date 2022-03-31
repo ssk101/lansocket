@@ -62,7 +62,7 @@ async function initSocketServer() {
         if(action === 'keyPress') {
           if(data === 'layout') {
             try {
-              execSync(`sh ${__dirname}/scripts/setkblayout.sh`, {
+              execSync(`bash ${__dirname}/scripts/setkblayout.sh`, {
                 stdio: 'inherit',
                 cwd: `${__dirname}/scripts`,
               })

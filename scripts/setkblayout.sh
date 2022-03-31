@@ -3,10 +3,10 @@
 new=""
 current=$(setxkbmap -query | awk '/layout/ {print $2}')
 
-if [ $current == "us" ] ; then
-  new="no"
+if [[ $current == "us,no" ]] ; then
+  new="no,us"
 else
-  new="us"
+  new="us,no"
 fi
 
 setxkbmap -model pc104 -layout $new
