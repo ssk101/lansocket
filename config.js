@@ -1,24 +1,22 @@
-import _ from 'lodash'
+const {
+  LANSOCKET_NAMESPACE,
+  LANSOCKET_SERVER_HOST,
+  LANSOCKET_SERVER_PORT,
+  LANSOCKET_WS_PORT,
+} = process.env
 
-const defaults = {
-  ws: {
-    host: 'http://localhost',
-    port: 3099,
-  },
+export default {
+  namespace: LANSOCKET_NAMESPACE,
   server: {
-    host: 'http://localhost',
-    port: 3098,
+    namespace: 'ubuntu-main',
+    host: LANSOCKET_SERVER_HOST,
+    port: LANSOCKET_WS_PORT,
+    ws: {
+      host: LANSOCKET_SERVER_HOST,
+      port: LANSOCKET_SERVER_PORT,
+    },
   },
-  clients: [
-
-  ],
-  namespace: '',
+  clients: [{
+    namespace: 'mbp',
+  }],
 }
-
-let devConfig
-
-try {
-  ({ default: devConfig } = await import('./development.js'))
-} catch (e) {}
-
-export default _.merge(defaults, devConfig)

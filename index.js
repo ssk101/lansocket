@@ -11,19 +11,37 @@ import config from './config.js'
 const __dirname = ((await import('path')).dirname)
   (((await import('url')).fileURLToPath)(import.meta.url))
 
-const { ws, server, clients, namespace } = config
+const { namespace, server, clients } = config
+const isServer = server.namespace === namespace
 
-const socketClient = new SocketClient({
-  port: ws.port,
-  host: ws.host,
-  namespace,
-  connectCallback: (e) => {
-    console.log(namespace, 'connected to server')
-  }
-})
+if(!isServer) {
+  const socketClient = new SocketClient({
+    port: server.ws.port,
+    host: server.ws.host,
+    namespace,
+    connectCallback: (e) => {
+      console.log(namespace, 'connected to server')
+    }
+  })
+} else {
+  const httpServer = await createServer({
+    namespace,
+    client: false,
+    useRedis: false,
+    port: server.port,
+    routes: {
+      '/send-message': {
+        method: 'post',
+        handlers: [(req, res, next) => {
+          socketClient.socket.emit(req.body)
 
-if(ws.namespace === namespace) {
-  const socketServer = new SocketServer({ port: ws.port })
+          return req.body
+        }],
+      },
+    }
+  })
+
+  const socketServer = new SocketServer({ port: server.ws.port })
   await socketServer.createServer()
   const nsps = {}
 
@@ -57,19 +75,3 @@ if(ws.namespace === namespace) {
   }
 }
 
-const httpServer = await createServer({
-  namespace,
-  client: false,
-  useRedis: false,
-  port: server.port,
-  routes: {
-    '/send-message': {
-      method: 'post',
-      handlers: [(req, res, next) => {
-        socketClient.socket.emit(req.body)
-
-        return req.body
-      }],
-    },
-  }
-})
