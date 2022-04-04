@@ -57,12 +57,12 @@ async function initSocketServer() {
       disconnectCallback: (e) => {
         console.log(client.namespace, 'disconnected')
       },
-      eventCallback: (e, message) => {
+      eventCallback: async (e, message) => {
         const { action, data } = message
         if(action === 'keyPress') {
           if(data === 'layout') {
             try {
-              execSync(`bash ${__dirname}/scripts/setkblayout.sh`, {
+              execSync(`${__dirname}/scripts/toggle-kb-layout.js`, {
                 stdio: 'inherit',
                 cwd: `${__dirname}/scripts`,
               })
