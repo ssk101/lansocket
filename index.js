@@ -35,6 +35,7 @@ const httpServer = await createServer({
     '/send-message': {
       method: 'post',
       handlers: [(req, res, next) => {
+        console.log('client', req.body)
         socketClient.socket.emit(req.body)
         return req.body
       }],
@@ -43,7 +44,6 @@ const httpServer = await createServer({
 })
 
 async function initSocketServer() {
-
   const nsps = {}
 
   for(const client of clients) {
