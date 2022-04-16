@@ -58,21 +58,20 @@ async function initSocketServer() {
         console.log(client.namespace, 'disconnected')
       },
       eventCallback: async (e, message) => {
-        const { action, data } = message
-        if(action === 'keyPress') {
-          if(data === 'layout') {
-            try {
-              execSync(`${__dirname}/scripts/toggle-kb-layout.js`, {
-                stdio: 'inherit',
-                cwd: `${__dirname}/scripts`,
-              })
-            } catch (e) {
-              console.error(e)
-            }
-          }
-        }
+        await xs(message)
       }
     })
+  }
+}
+
+async function xs({ context, action, data }) {
+  try {
+    execSync(`${__dirname}/scripts/${context}/${action}.mjs`, {
+      stdio: 'inherit',
+      cwd: `${__dirname}/scripts`,
+    })
+  } catch (e) {
+    console.error(e)
   }
 }
 

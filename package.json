@@ -7,17 +7,19 @@
   "engines": {
     "node": ">= 17.1.0"
   },
-  "bin": "./bin/lansocket.js",
+  "bin": "./lansocket.js",
   "scripts": {
     "pm2": "pm2 start ecosystem.config.cjs && pm2 logs lansocket",
     "server": "node --experimental-json-modules ./index.js",
     "start": "yarn server"
   },
   "dependencies": {
+    "@ladjs/graceful": "^2.0.1",
     "@octokit/rest": "^18.12.0",
     "@ssk101/facade-server": "^1.0.0",
     "@ssk101/facade-sockets": "^1.0.0",
     "@ssk101/facade-toolbox": "^1.0.0",
+    "bree": "^8.0.3",
     "lodash": "^4.17.21",
     "node-fetch": "^3.0.0"
   }

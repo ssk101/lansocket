@@ -1,27 +1,23 @@
 import config from './config.js'
 
 const args = process.argv.slice(2)
-const [command] = args
+const [context, action] = args
 
-const commands = {
-  kbLayout: async function() {
-    const result = await fetch(`http://localhost:3098/send-message`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        action: 'keyPress',
-        data: 'layout',
-      })
+async function send({ context, action, data = {} }) {
+  return fetch(`http://localhost:3098/send-message`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      context,
+      action,
+      data,
     })
-  },
+  }).then(res => res.json())
 }
 
-
-if(command) {
-  await commands[command]()
-}
+await send({ context, action })
 
 process.exit(0)
