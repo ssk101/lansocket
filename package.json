@@ -9,9 +9,8 @@
   },
   "bin": "./lansocket.js",
   "scripts": {
-    "pm2": "pm2 start ecosystem.config.cjs",
-    "server": "node --experimental-json-modules ./index.js",
-    "start": "yarn server"
+    "pm2": "pm2 start ecosystem.config.cjs --only lansocket-server && pm2 logs lansocket-server",
+    "jobs": "pm2 start ecosystem.config.cjs --only lansocket-jobs && pm2 logs lansocket-jobs"
   },
   "dependencies": {
     "@ladjs/graceful": "^2.0.1",
