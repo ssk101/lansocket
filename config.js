@@ -1,21 +1,24 @@
-const {
-  LANSOCKET_NAMESPACE,
-  LANSOCKET_SERVER_HOST,
-  LANSOCKET_SERVER_PORT,
-  LANSOCKET_WS_PORT,
-} = process.env
+import os from 'os'
+import fs from 'fs'
 
-export default {
-  namespace: LANSOCKET_NAMESPACE,
-  port: LANSOCKET_SERVER_PORT,
-  wsPort: LANSOCKET_WS_PORT,
-  server: {
-    namespace: 'ubuntu-main',
-    host: LANSOCKET_SERVER_HOST,
-    port: LANSOCKET_SERVER_PORT,
-    wsPort: LANSOCKET_WS_PORT,
-  },
-  clients: [{
-    namespace: 'mbp',
-  }],
+const { HOME } = process.env
+const userCfgPath = `${HOME}/.lansocketrc`
+let userCfg
+
+try {
+  userCfg = JSON.parse(fs.readFileSync(userCfgPath))
+} catch (e) {
+  console.error(e)
+  process.exit(0)
 }
+
+if(!userCfg?.hosts?.length) {
+  console.error(`Hosts not configured in ${HOME}/.lansocketrc`)
+  process.exit(0)
+}
+
+export default Object.assign({
+  localHostname: os.hostname(),
+  port: 6660,
+  wsPort: 6661,
+}, userCfg)

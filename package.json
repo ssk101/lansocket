@@ -9,7 +9,7 @@
   },
   "bin": "./lansocket.js",
   "scripts": {
-    "pm2": "pm2 start ecosystem.config.cjs && pm2 logs lansocket",
+    "pm2": "pm2 start ecosystem.config.cjs",
     "server": "node --experimental-json-modules ./index.js",
     "start": "yarn server"
   },
@@ -21,6 +21,7 @@
     "@ssk101/facade-toolbox": "^1.0.0",
     "bree": "^8.0.3",
     "lodash": "^4.17.21",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.0.0",
+    "zx": "^6.1.0"
   }
 }

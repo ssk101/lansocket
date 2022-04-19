@@ -1,10 +1,10 @@
-import config from './config.js'
+import { port } from './config.js'
 
 const args = process.argv.slice(2)
 const [context, action] = args
 
 async function send({ context, action, data = {} }) {
-  return fetch(`http://localhost:3098/send-message`, {
+  return fetch(`http://127.0.0.1:${port}/send-message`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -11,26 +11,30 @@ import config from './config.js'
 const __dirname = ((await import('path')).dirname)
   (((await import('url')).fileURLToPath)(import.meta.url))
 
-const { namespace, wsPort, port, server, clients } = config
-const isServer = server.namespace === namespace
+const {
+  localHostname,
+  wsPort,
+  port,
+  hosts,
+} = config
 
 const socketClient = new SocketClient({
   port: wsPort,
-  host: server.host,
-  namespace,
+  host: localHostname,
+  namespace: localHostname,
   connectCallback: (e) => {
-    console.log(namespace, 'connected to server')
+    console.log(localHostname, 'connected to server')
   }
 })
 
-const socketServer = new SocketServer({ port: server.wsPort })
+const socketServer = new SocketServer({ port: wsPort })
 await socketServer.createServer()
 
 const httpServer = await createServer({
-  namespace,
+  namespace: localHostname,
   client: false,
   useRedis: false,
-  port: port,
+  port,
   routes: {
     '/send-message': {
       method: 'post',
@@ -46,16 +50,18 @@ const httpServer = await createServer({
 async function initSocketServer() {
   const nsps = {}
 
-  for(const client of clients) {
-    nsps[client.namespace] = await socketServer.namespace(`/${client.namespace}`, {
+  for(const host of hosts) {
+    if(host === localHostname) continue
+
+    nsps[host] = await socketServer.namespace(`/${host}`, {
       connectCallback: (e) => {
-        console.log(client.namespace, 'connected')
+        console.log(host, 'connected')
       },
       closeCallback: (e) => {
-        console.log(client.namespace, 'closed')
+        console.log(host, 'closed')
       },
       disconnectCallback: (e) => {
-        console.log(client.namespace, 'disconnected')
+        console.log(host, 'disconnected')
       },
       eventCallback: async (e, message) => {
         await xs(message)
@@ -75,6 +81,4 @@ async function xs({ context, action, data }) {
   }
 }
 
-if(isServer) {
-  initSocketServer()
-}
+initSocketServer()
