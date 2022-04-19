@@ -77,7 +77,10 @@ export async function connect() {
         ])).toString()
       } catch (e) {}
 
-      if(up?.match(/tcp open/g)) return host
+      if(up?.match(/tcp(\s*)open/g)) {
+        console.log({ host })
+        return host
+      }
     }
   }
 
