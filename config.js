@@ -20,7 +20,7 @@ if(!userCfg?.hosts?.length) {
 
 export default Object.assign({
   __dirname,
-  localHostname: os.hostname(),
+  localHostName: os.hostname(),
   port: 6660,
   wsPort: 6661,
   hosts: [],

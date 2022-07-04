@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
 import 'zx/globals'
+import path from 'path'
 import config from '../../config.js'
 import { cmd } from '../../services/cmd.mjs'
 
@@ -9,15 +10,18 @@ export async function connect() {
     hosts,
     services = {},
     localHostName,
+    verbose,
   } = config
 
-  const { role, executable } = services.barrier || {}
+  const { role, executablePath, executableName } = services.barrier || {}
 
-  if(role === 'server' || !role || !executable) {
+  if(role === 'server' || !role || !executablePath || !executableName) {
     return {}
   }
 
-  $.verbose = false
+  const executable = path.join(executablePath, executableName)
+
+  $.verbose = verbose
 
   const MAX_KILL_TRIES = 10
 
@@ -27,7 +31,7 @@ export async function connect() {
 
   async function getProcessStatus() {
     try {
-      const status = await $`/usr/bin/pgrep barrierc | wc -l`
+      const status = await $`/usr/bin/pgrep ${executableName} | wc -l`
       return +((status || '').toString().trim())
     } catch (e) {
       return 0
@@ -36,7 +40,8 @@ export async function connect() {
 
   async function getProcessHost() {
     try {
-      const host = await $`/bin/ps -ax | grep "[b]arrierc"`
+      const host = await $`/bin/ps -ax | grep "${executableName}"`
+
       return host
         .toString()
         .trim()
@@ -55,10 +60,7 @@ export async function connect() {
       i += 1
 
       try {
-        await cmd('killall', ['barrier'])
-      } catch (e) {}
-      try {
-        await cmd('killall', ['barrierc'])
+        await cmd('killall', ['barrier', 'barrierc'])
       } catch (e) {}
 
       await wait(1000)
@@ -67,7 +69,7 @@ export async function connect() {
 
   async function findHost() {
     for(const host of hosts) {
-      if(host === localHostname) continue
+      if(host === localHostName) continue
 
       let up
 
@@ -77,14 +79,13 @@ export async function connect() {
           '-PN',
           '-p',
           'ssh,msrpc',
-          '|',
-          'grep',
-          `'open'`,
         ])).toString()
-      } catch (e) {}
+      } catch (e) {
+        console.error('nmap', e)
+      }
 
       if(up?.match(/tcp(\s*)open/g)) {
-        console.log({ host })
+        console.log('found a host', { host })
         return host
       }
     }
@@ -104,17 +105,16 @@ export async function connect() {
     await killBarrier()
 
     try {
-      await cmd(barrierExecutable, [
-        '--name',
-        'mbp',
+      await cmd(executable, [
         '--restart',
-        '--disable-crypto',
         '--daemon',
         foundHost,
       ])
     } catch (e) {
       console.error(e)
     }
+
+    console.log(3)
   }
 
   return { processHost, newHost: foundHost }

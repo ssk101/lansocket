@@ -1,9 +1,10 @@
-export async function cmd(command, args, opts = {}) {
+export async function cmd(command, args = [], opts = {}) {
   const fullCmd = [command].concat(args)
+
   const { stdout } = await $`${fullCmd}`
 
   if(opts.verbose) {
-    console.log(stdout)
+    console.log({ stdout })
   }
 
   return stdout
