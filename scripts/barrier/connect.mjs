@@ -40,7 +40,7 @@ export async function connect() {
 
   async function getProcessHost() {
     try {
-      const host = await $`/bin/ps -ax | grep "${executableName}"`
+      const host = await $`/bin/ps -ax | grep "[b]arrier"`
 
       return host
         .toString()
@@ -100,6 +100,8 @@ export async function connect() {
 
   const processHost = await getProcessHost()
   const serverHostChanged = processHost !== foundHost
+
+  console.log({processHost, foundHost})
 
   if(processHost !== foundHost) {
     await killBarrier()
