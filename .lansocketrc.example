@@ -1,0 +1,14 @@
+{
+  "port": 6660,
+  "wsPort": 6661,
+  "hosts": [
+    "macbookpro.lan",
+    "WINDOWS"
+  ],
+  "services": {
+    "barrier": {
+      "role": "server",
+      "executable": "C:\\Program\\ Files\\Barrier\\barrier.exe"
+    }
+  }
+}

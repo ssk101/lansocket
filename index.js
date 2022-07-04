@@ -8,14 +8,12 @@ import {
 } from '@ssk101/facade-server'
 import config from './config.js'
 
-const __dirname = ((await import('path')).dirname)
-  (((await import('url')).fileURLToPath)(import.meta.url))
-
 const {
   localHostname,
   wsPort,
   port,
   hosts,
+  __dirname,
 } = config
 
 const socketClient = new SocketClient({

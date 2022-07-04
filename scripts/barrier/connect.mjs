@@ -7,9 +7,15 @@ import { cmd } from '../../services/cmd.mjs'
 export async function connect() {
   const {
     hosts,
-    localHostname,
-    barrierExecutable = 'barrierc',
+    services = {},
+    localHostName,
   } = config
+
+  const { role, executable } = services.barrier || {}
+
+  if(role === 'server' || !role || !executable) {
+    return {}
+  }
 
   $.verbose = false
 
