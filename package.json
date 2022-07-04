@@ -9,6 +9,7 @@
   },
   "bin": "./lansocket.js",
   "scripts": {
+    "start": "pm2 start ecosystem.config.cjs",
     "pm2": "pm2 start ecosystem.config.cjs && pm2 logs",
     "server": "pm2 start ecosystem.config.cjs --only lansocket-server && pm2 logs lansocket-server",
     "jobs": "pm2 start ecosystem.config.cjs --only lansocket-jobs && pm2 logs lansocket-jobs"
