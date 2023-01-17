@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'lansocket-server',
-    script: './index.js',
+    script: './index.mjs',
     watch: true,
     max_memory_restart: '2G',
     autorestart: true,

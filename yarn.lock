@@ -390,7 +390,7 @@ body-parser@1.19.2:
     raw-body "2.4.3"
     type-is "~1.6.18"
 
-boolean@^3.1.4:
+boolean@^3.1.4, boolean@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/boolean/-/boolean-3.2.0.tgz#9e5294af4e98314494cbb17979fa54ca159f116b"
   integrity sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==
@@ -402,16 +402,15 @@ braces@^3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-bree@^8.0.3:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/bree/-/bree-8.0.3.tgz#811b8477d2e1fa9caa085e21bb0ef772eaa3031c"
-  integrity sha512-rz2v8P+Y+VgI9sEzrOhBHDcmLclI+Yu1oCunPuX5SIVMctqRp1zJdaS7wjaJoSIFJm6XJC/QrpxK1dvWzAbMgw==
+bree@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/bree/-/bree-9.1.2.tgz#388de4b21c727df5842932f4abb257d9afd66684"
+  integrity sha512-qwAiwPz7Ba2WvhtQl+qI7mARmVK2GG6P7qHV6IQcblYb5TCZXhFNugpp2JOGAdgc9GU4SzR/PjiDUHLVg/CvzQ==
   dependencies:
     "@breejs/later" "^4.1.0"
-    boolean "^3.1.4"
+    boolean "^3.2.0"
     combine-errors "^3.0.3"
     cron-validate "^1.4.3"
-    debug "^4.3.3"
     human-interval "^2.0.1"
     is-string-and-not-blank "^0.0.2"
     is-valid-path "^0.1.1"
@@ -607,7 +606,7 @@ debug@4.3.2:
   dependencies:
     ms "2.1.2"
 
-debug@^4.3.3, debug@^4.3.4:
+debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==

@@ -16,6 +16,7 @@ export async function connect() {
   const { role, executablePath, executableName } = services.barrier || {}
 
   if(role === 'server' || !role || !executablePath || !executableName) {
+    console.log(`I'm a server, not connecting to anythhing`)
     return {}
   }
 

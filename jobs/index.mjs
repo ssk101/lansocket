@@ -1,12 +1,14 @@
 import Bree from 'bree'
 import Graceful from '@ladjs/graceful'
 import config from '../config.js'
+import path from 'path'
 
 const jobs = []
 
 if(config.services.barrier.role === 'client') {
   jobs.push({
-    name: 'barrier-connect.mjs',
+    name: 'barrier-connect',
+    // path: path.join(config.__dirname, 'jobs', 'barrier-connect.js'),
     interval: 'every 60 seconds',
     timeout: 0,
   })
