@@ -9,19 +9,21 @@ import {
 import config from './config.js'
 
 const {
-  localHostname,
+  localHostName,
   wsPort,
   port,
   hosts,
   __dirname,
 } = config
 
+console.log({ localHostName })
+
 const socketClient = new SocketClient({
   port: wsPort,
-  host: localHostname,
-  namespace: localHostname,
+  host: localHostName,
+  namespace: localHostName,
   connectCallback: (e) => {
-    console.log(localHostname, 'connected to server')
+    console.log(localHostName, 'connected to server')
   }
 })
 
@@ -29,7 +31,7 @@ const socketServer = new SocketServer({ port: wsPort })
 await socketServer.createServer()
 
 const httpServer = await createServer({
-  namespace: localHostname,
+  namespace: localHostName,
   client: false,
   useRedis: false,
   port,
@@ -49,7 +51,7 @@ async function initSocketServer() {
   const nsps = {}
 
   for(const host of hosts) {
-    if(host === localHostname) continue
+    if(host === localHostName) continue
 
     nsps[host] = await socketServer.namespace(`/${host}`, {
       connectCallback: (e) => {
