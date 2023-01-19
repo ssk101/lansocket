@@ -5,7 +5,7 @@ import config from '../../config.js'
 import { cmd } from '../../services/cmd.mjs'
 import { Logger } from '../../services/logger.mjs'
 
-const logger = new Logger({ prefix: '[scripts/connect]' })
+const logger = new Logger({ prefix: '[barrier:connect]' })
 
 export async function connect() {
   const {

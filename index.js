@@ -2,10 +2,10 @@ import { execSync } from 'child_process'
 import {
   SocketServer,
   SocketClient,
-} from '@ssk101/facade-sockets'
+} from '@steelskysoftware/facade-sockets'
 import {
   createServer
-} from '@ssk101/facade-server'
+} from '@steelskysoftware/facade-server'
 import { Logger } from './services/logger.mjs'
 import config from './config.js'
 
@@ -42,7 +42,7 @@ const httpServer = await createServer({
     '/send-message': {
       method: 'post',
       handlers: [(req, res, next) => {
-        logger.info('Received client message', req.body)
+        logger.info('Received client message: ', req.body)
         socketClient.socket.emit(req.body)
         return req.body
       }],

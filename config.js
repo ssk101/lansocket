@@ -1,8 +1,10 @@
 import os from 'os'
 import fs from 'fs'
 import path from 'path'
-const __dirname = ((await import('path')).dirname)(((await import('url')).fileURLToPath)(import.meta.url))
+import { Logger } from './services/logger.mjs'
 
+const logger = new Logger({ prefix: '[config]' })
+const __dirname = ((await import('path')).dirname)(((await import('url')).fileURLToPath)(import.meta.url))
 const userCfgPath = path.join(__dirname, '.lansocketrc')
 let userCfg
 
