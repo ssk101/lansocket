@@ -7,5 +7,4 @@ const {
   processHost,
 } = await connect()
 
-console.log({ processHost, newHost })
 process.exit(0)

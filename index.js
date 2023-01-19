@@ -6,7 +6,10 @@ import {
 import {
   createServer
 } from '@ssk101/facade-server'
+import { Logger } from './services/logger.mjs'
 import config from './config.js'
+
+const logger = new Logger({ prefix: '[server]' })
 
 const {
   localHostName,
@@ -16,14 +19,14 @@ const {
   __dirname,
 } = config
 
-console.log({ localHostName })
+logger.info({ localHostName })
 
 const socketClient = new SocketClient({
   port: wsPort,
   host: localHostName,
   namespace: localHostName,
   connectCallback: (e) => {
-    console.log(localHostName, 'connected to server')
+    logger.info(localHostName, 'connected to server', e)
   }
 })
 
@@ -39,7 +42,7 @@ const httpServer = await createServer({
     '/send-message': {
       method: 'post',
       handlers: [(req, res, next) => {
-        console.log('client', req.body)
+        logger.info('Received client message', req.body)
         socketClient.socket.emit(req.body)
         return req.body
       }],
@@ -55,13 +58,13 @@ async function initSocketServer() {
 
     nsps[host] = await socketServer.namespace(`/${host}`, {
       connectCallback: (e) => {
-        console.log(host, 'connected')
+        logger.info(host, 'connected')
       },
       closeCallback: (e) => {
-        console.log(host, 'closed')
+        logger.info(host, 'closed')
       },
       disconnectCallback: (e) => {
-        console.log(host, 'disconnected')
+        logger.info(host, 'disconnected')
       },
       eventCallback: async (e, message) => {
         await xs(message)
@@ -77,7 +80,7 @@ async function xs({ context, action, data }) {
       cwd: `${__dirname}/scripts`,
     })
   } catch (e) {
-    console.error(e)
+    logger.error(e)
   }
 }
 

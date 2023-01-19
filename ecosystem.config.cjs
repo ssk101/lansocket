@@ -6,6 +6,9 @@ module.exports = {
     max_memory_restart: '2G',
     autorestart: true,
     restart_delay: 30000,
+    env: {
+      FORCE_COLOR: 1,
+    },
     node_args: [
       '--experimental-json-modules',
     ],
@@ -16,6 +19,9 @@ module.exports = {
     max_memory_restart: '1G',
     autorestart: true,
     restart_delay: 30000,
+    env: {
+      FORCE_COLOR: 1,
+    },
     node_args: [
       '--experimental-json-modules',
     ],
